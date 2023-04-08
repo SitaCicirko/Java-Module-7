@@ -1,5 +1,7 @@
 package com.kodilla.stream.lambda;
 
+import com.kodilla.stream.lambda.Executor;
+
 public class ExecuteSaySomething implements Executor {
 
     @Override

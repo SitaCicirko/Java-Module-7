@@ -1,19 +1,24 @@
 package com.kodilla.stream;
 
-import com.kodilla.stream.beautifier.PoemBeautifier;
-import com.kodilla.stream.iterate.NumbersGenerator;
+import com.kodilla.stream.book.Book;
+import com.kodilla.stream.book.BookDirectory;
+import java.util.stream.Collectors;
+import com.kodilla.stream.forumuser.*;
+import java.util.Map;
 
 public class StreamMain {
 
     public static void main(String[] args) {
-        PoemBeautifier poemBeautifier = new PoemBeautifier();
-        String abc = "abc";
-        String abcdef = "ABCDEF";
-        poemBeautifier.beautify(abc, text -> "ABC" + text + "ABC");
-        poemBeautifier.beautify(abc, text -> text.toUpperCase());
-        poemBeautifier.beautify(abcdef, text -> text.toLowerCase() );
-        poemBeautifier.beautify(abc, text -> text.replaceAll("sruu", "tututu"));
-        System.out.println("Using Stream to generate even numbers from 1 to 20");
-        NumbersGenerator.generateEven(20);
+        Forum forum = new Forum();
+
+        Map<Integer, ForumUser> theForum = forum.getUserList().stream()
+                .filter( user -> user.getSex() == 'M')
+                .filter(user -> user.getBirthDate().getYear() < 2003)
+                .filter(user -> user.getNumberOfPublishedPosts() >= 1)
+                .collect(Collectors.toMap(ForumUser::getUserID,user -> user));
+        System.out.println("Here we go: " + theForum.size());
+        theForum.entrySet().stream()
+                .map( integerForumUserEntry -> integerForumUserEntry.getKey() + " " + integerForumUserEntry.getValue())
+                .forEach(System.out::println);
     }
 }
